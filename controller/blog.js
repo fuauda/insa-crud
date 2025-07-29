@@ -98,7 +98,7 @@ exports.deleteBlog = async (req, res) => {
       return res.status(401).json({ msg: 'User not authorized' });
     }
 
-    await Blog.findByIdAndRemove(req.params.id);
+    await Blog.findByIdAndDelete(req.params.id);
 
     res.json({ msg: 'Blog post removed' });
   } catch (err) {
