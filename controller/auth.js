@@ -43,6 +43,20 @@ exports.register = async (req, res) => {
   }
 };
 
+exports.getMe = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).select('-password');
+    res.json(user);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+};
+
+exports.logout = (req, res) => {
+  res.json({ msg: 'Logged out successfully' });
+};
+
 exports.login = async (req, res) => {
   const { email, password } = req.body;
 
