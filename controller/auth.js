@@ -5,6 +5,23 @@ const User = require('../models/User');
 exports.register = async (req, res) => {
   const { username, email, password } = req.body;
 
+  // Validate email format
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    return res.status(400).json({ msg: 'Please enter a valid email address' });
+  }
+
+  // Validate password length
+  if (password.length < 8) {
+    return res.status(400).json({ msg: 'Password must be at least 8 characters long' });
+  }
+
+  // Validate username for special characters (only alphanumeric allowed)
+  const usernameRegex = /^[a-zA-Z0-9]+$/;
+  if (!usernameRegex.test(username)) {
+    return res.status(400).json({ msg: 'Username can only contain alphanumeric characters' });
+  }
+
   try {
     let user = await User.findOne({ email });
     if (user) {
